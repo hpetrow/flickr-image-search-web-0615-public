@@ -1,12 +1,28 @@
 $(document).ready(function(){
-  
+
   //write your solution here...
-    
+
+  $("#search").click(function() {
+    var input = $("#keyword").val();
+    var url = 'https://api.flickr.com/services/rest/?format=json&method=flickr.photos.search&api_key=2fd41b49fedfd589dc265350521ab539&tags='+input+'&jsoncallback=?'
+
+    $.getJSON(url, {
+      format: "json"
+    })
+      .done(function(data) {
+        var photos = data["photos"]["photo"];
+
+        for (var i = 0; i < photos.length; i++) {
+          var imgUrl = 'http://farm' + photos[i].farm + '.staticflickr.com/' + photos[i].server + '/' + photos[i].id + '_' + photos[i].secret + '.jpg';
+          $("#feed").append("<img src = '" + imgUrl + "'>");
+        }
+      });
+  });
 });
 
 /*
 
-API url: 
+API url:
 
 https://www.flickr.com/services/api/request.rest.html
 
